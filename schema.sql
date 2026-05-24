@@ -6,14 +6,22 @@ CREATE TABLE IF NOT EXISTS users (
     reminder_time TEXT DEFAULT '20:00'          
 );
 
+
 CREATE TABLE IF NOT EXISTS daily_entries (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    
     user_id      INTEGER NOT NULL,
+
     entry_date   TEXT NOT NULL,                 -- ISO 8601: '2025-06-01'
+
     mood         INTEGER CHECK(mood BETWEEN 1 AND 5),
+    
     work_hours   REAL    CHECK(work_hours  >= 0),
+
     sleep_hours  REAL    CHECK(sleep_hours >= 0),
+
     comment      TEXT,
+
     created_at   TEXT NOT NULL DEFAULT (datetime('now')),
 
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
