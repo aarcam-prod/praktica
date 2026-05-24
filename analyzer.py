@@ -1,4 +1,3 @@
-
 import io
 import statistics
 from datetime import datetime
@@ -16,7 +15,6 @@ except ImportError:
 MOOD_EMOJI = {1: "😞", 2: "😐", 3: "🙂", 4: "😊", 5: "🤩"}
 MOOD_LABEL = {1: "Ужасно", 2: "Плохо", 3: "Нормально", 4: "Хорошо", 5: "Отлично"}
 
-
 def format_stats_text(entries: List[Dict], period_label: str) -> str:
     if not entries:
         return f"📭 Нет данных {period_label}.\n\nНачни с команды /add или кнопки «➕ Записать день»."
@@ -24,16 +22,12 @@ def format_stats_text(entries: List[Dict], period_label: str) -> str:
     moods = [e["mood"] for e in entries if e["mood"] is not None]
     works = [e["work_hours"] for e in entries if e["work_hours"] is not None]
     sleeps = [e["sleep_hours"] for e in entries if e["sleep_hours"] is not None]
-
     avg_mood  = statistics.mean(moods)  if moods  else 0
     avg_work  = statistics.mean(works)  if works  else 0
     avg_sleep = statistics.mean(sleeps) if sleeps else 0
-
     best_entry  = max(entries, key=lambda e: e["mood"] or 0)
     worst_entry = min(entries, key=lambda e: e["mood"] or 5)
-
     mood_icon = MOOD_EMOJI.get(round(avg_mood), "🙂")
-
     lines = [
         f"📊 *Статистика {period_label}* ({len(entries)} дн.)\n",
         f"*Настроение:*",
@@ -106,7 +100,6 @@ def format_history_text(entries: List[Dict]) -> str:
         )
     return "\n\n".join(lines)
 
-
 def build_chart(entries: List[Dict]) -> bytes | None:
     if not MATPLOTLIB_AVAILABLE or len(entries) < 2:
         return None
@@ -116,7 +109,6 @@ def build_chart(entries: List[Dict]) -> bytes | None:
     moods  = [e["mood"]       or 0 for e in entries_sorted]
     sleeps = [e["sleep_hours"] or 0 for e in entries_sorted]
     works  = [e["work_hours"]  or 0 for e in entries_sorted]
-
     fig, axes = plt.subplots(3, 1, figsize=(10, 8), facecolor="#1a1a2e")
     fig.suptitle("📊 Твоя статистика", color="white", fontsize=14, fontweight="bold")
 
@@ -146,7 +138,6 @@ def build_chart(entries: List[Dict]) -> bytes | None:
     axes[2].grid(axis="y", color="#0f3460", linestyle="--", alpha=0.5)
 
     plt.tight_layout()
-
     buf = io.BytesIO()
     plt.savefig(buf, format="png", dpi=120, bbox_inches="tight", facecolor="#1a1a2e")
     plt.close(fig)
