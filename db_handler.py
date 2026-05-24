@@ -175,7 +175,6 @@ def get_insights(user_id: int) -> dict:
         GROUP BY strftime('%w', entry_date)
         ORDER BY avg_mood DESC
     """, (user_id,)).fetchall()
-
     conn.close()
     return {
         "sleep_mood": [dict(r) for r in sleep_mood],
