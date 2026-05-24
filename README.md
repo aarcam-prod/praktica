@@ -23,20 +23,34 @@
 | Поле | Тип | Описание |
 |------|-----|----------|
 | `user_id` | INTEGER PK | Telegram ID |
+
 | `username` | TEXT | @username |
+
 | `first_name` | TEXT | Имя |
+
 | `created_at` | TEXT | Дата регистрации |
+
 | `reminder_time` | TEXT | Время напоминания |
 
+
 `daily_entries`
+
 | Поле | Тип | Описание |
+
 |------|-----|----------|
+
 | `id` | INTEGER PK | Автоинкремент |
+
 | `user_id` | INTEGER FK | Ссылка на users |
+
 | `entry_date` | TEXT | Дата записи |
+
 | `mood` | INTEGER | Настроение 1–5 |
+
 | `work_hours` | REAL | Часы работы |
+
 | `sleep_hours` | REAL | Часы сна |
+
 | `comment` | TEXT | Комментарий |
 
 
