@@ -2,7 +2,6 @@ import io
 import statistics
 from datetime import datetime
 from typing import List, Dict
-
 try:
     import matplotlib
     matplotlib.use("Agg")
