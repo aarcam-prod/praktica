@@ -54,17 +54,17 @@ def format_stats_text(entries: List[Dict], period_label: str) -> str:
 
 
 def format_insights_text(insights: Dict) -> str:
-    lines = ["🔍 *Мои инсайты*\n"]
+    lines = ["🔍  *Мои инсайты*\n"]
 
     if insights["sleep_mood"]:
-        lines.append("🛌 *Сон и настроение:*")
+        lines.append("🛌  *Сон и настроение:*")
         for row in insights["sleep_mood"]:
             bar = "█" * int(row["avg_mood"] * 2)
             lines.append(f"  {row['sleep_cat']}: {bar} {row['avg_mood']}/5 ({row['cnt']} дн.)")
         lines.append("")
 
     if insights["work_mood"]:
-        lines.append("💼 *Работа/учёба и настроение:*")
+        lines.append("💼  *Работа/учёба и настроение:*")
         for row in insights["work_mood"]:
             bar = "█" * int(row["avg_mood"] * 2)
             lines.append(f"  {row['work_cat']}: {bar} {row['avg_mood']}/5 ({row['cnt']} дн.)")
@@ -83,7 +83,6 @@ def format_insights_text(insights: Dict) -> str:
 
     lines.append("_Чем больше записей — тем точнее выводы!_")
     return "\n".join(lines)
-
 
 def format_history_text(entries: List[Dict]) -> str:
     if not entries:
@@ -125,14 +124,10 @@ def build_chart(entries: List[Dict]) -> bytes | None:
     axes[0].set_ylim(0.5, 5.5)
     axes[0].set_yticks([1, 2, 3, 4, 5])
     axes[0].grid(axis="y", color="#0f3460", linestyle="--", alpha=0.5)
-
-
     axes[1].bar(dates, sleeps, color="#533483", width=0.6)
     axes[1].set_ylabel("Сон (ч)", color="white", fontsize=9)
     axes[1].grid(axis="y", color="#0f3460", linestyle="--", alpha=0.5)
     axes[1].axhline(y=8, color="#e94560", linestyle="--", alpha=0.7, linewidth=1)
-
-
     axes[2].bar(dates, works, color="#05b8cc", width=0.6)
     axes[2].set_ylabel("Работа (ч)", color="white", fontsize=9)
     axes[2].grid(axis="y", color="#0f3460", linestyle="--", alpha=0.5)
