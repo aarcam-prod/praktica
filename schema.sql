@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
     reminder_time TEXT DEFAULT '20:00'          
 );
 
-
 CREATE TABLE IF NOT EXISTS daily_entries (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id      INTEGER NOT NULL,
@@ -20,7 +19,6 @@ CREATE TABLE IF NOT EXISTS daily_entries (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     UNIQUE(user_id, entry_date)                -- Одна запись в день
 );
-
 
 CREATE INDEX IF NOT EXISTS idx_entries_user_date
     ON daily_entries(user_id, entry_date);
@@ -39,7 +37,6 @@ SELECT
 FROM daily_entries
 WHERE entry_date >= date('now', '-7 days')
 GROUP BY user_id;
-
 
 CREATE VIEW IF NOT EXISTS monthly_stats AS
 SELECT
