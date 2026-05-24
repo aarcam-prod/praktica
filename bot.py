@@ -9,6 +9,7 @@ from telebot import types
 import db_handler as db
 import analyzer
 
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -22,7 +23,6 @@ bot = telebot.TeleBot(TOKEN, parse_mode="Markdown")
 user_states: dict = {}   # {user_id: {"step": str, ...}}
 
 STEPS = ["mood", "work", "sleep", "comment"]
-
 
 
 
