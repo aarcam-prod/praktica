@@ -3,7 +3,6 @@ import os
 from datetime import datetime, date
 from typing import Optional
 
-
 DB_PATH = os.getenv("DB_PATH", "mood_tracker.db")
 
 def get_connection():
@@ -11,11 +10,9 @@ def get_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-
 def init_db():
     conn = get_connection()
     cursor = conn.cursor()
-
     cursor.executescript("""
         CREATE TABLE IF NOT EXISTS users (
             user_id     INTEGER PRIMARY KEY,
@@ -41,10 +38,8 @@ def init_db():
         CREATE INDEX IF NOT EXISTS idx_entries_user_date
             ON daily_entries(user_id, entry_date);
     """)
-
     conn.commit()
     conn.close()
-
 
 def upsert_user(user_id: int, username: str, first_name: str):
     conn = get_connection()
@@ -58,13 +53,11 @@ def upsert_user(user_id: int, username: str, first_name: str):
     conn.commit()
     conn.close()
 
-
 def get_user(user_id: int) -> Optional[dict]:
     conn = get_connection()
     row = conn.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
     conn.close()
     return dict(row) if row else None
-
 
 def save_entry(user_id: int, mood: int, work_hours: float,
                sleep_hours: float, comment: str = None):
@@ -83,7 +76,6 @@ def save_entry(user_id: int, mood: int, work_hours: float,
     conn.commit()
     conn.close()
 
-
 def entry_exists_today(user_id: int) -> bool:
     today = date.today().isoformat()
     conn = get_connection()
@@ -93,7 +85,6 @@ def entry_exists_today(user_id: int) -> bool:
     ).fetchone()
     conn.close()
     return row is not None
-
 
 def get_stats(user_id: int, period: str = "week") -> dict:
     days = 7 if period == "week" else 30
@@ -108,7 +99,6 @@ def get_stats(user_id: int, period: str = "week") -> dict:
     conn.close()
     return [dict(r) for r in rows]
 
-
 def get_all_entries(user_id: int, limit: int = 30) -> list:
     conn = get_connection()
     rows = conn.execute("""
@@ -121,7 +111,6 @@ def get_all_entries(user_id: int, limit: int = 30) -> list:
     conn.close()
     return [dict(r) for r in rows]
 
-
 def update_reminder_time(user_id: int, time_str: str):
     conn = get_connection()
     conn.execute(
@@ -131,17 +120,14 @@ def update_reminder_time(user_id: int, time_str: str):
     conn.commit()
     conn.close()
 
-
 def clear_user_data(user_id: int):
     conn = get_connection()
     conn.execute("DELETE FROM daily_entries WHERE user_id = ?", (user_id,))
     conn.commit()
     conn.close()
 
-
 def get_insights(user_id: int) -> dict:
     conn = get_connection()
-
     sleep_mood = conn.execute("""
         SELECT
             CASE
