@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS users (
-    user_id      INTEGER PRIMARY KEY,          -- Telegram user_id
-    username     TEXT,                          -- @username (может быть NULL)
-    first_name   TEXT,                          -- Имя пользователя
+    user_id      INTEGER PRIMARY KEY,          
+    username     TEXT,                          
+    first_name   TEXT,                         
     created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-    reminder_time TEXT DEFAULT '20:00'          -- Время ежедневного напоминания
+    reminder_time TEXT DEFAULT '20:00'          
 );
 
 
