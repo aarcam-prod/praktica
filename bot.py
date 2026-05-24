@@ -9,7 +9,6 @@ from telebot import types
 import db_handler as db
 import analyzer
 
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -42,7 +41,6 @@ def cancel_keyboard() -> types.ReplyKeyboardMarkup:
     kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
     kb.add(types.KeyboardButton("❌ Отмена"))
     return kb
-
 
 def mood_inline() -> types.InlineKeyboardMarkup:
     kb = types.InlineKeyboardMarkup()
@@ -88,7 +86,6 @@ def settings_inline(current_time: str) -> types.InlineKeyboardMarkup:
     kb.add(*buttons)
     return kb
 
-
 def get_state(user_id: int) -> dict:
     return user_states.get(user_id, {})
 
@@ -101,7 +98,6 @@ def set_state(user_id: int, **kwargs):
 
 def clear_state(user_id: int):
     user_states.pop(user_id, None)
-
 
 
 @bot.message_handler(commands=["start"])
@@ -120,7 +116,6 @@ def cmd_start(msg: types.Message):
         "Начни с кнопки *«➕ Записать день»* ниже 👇"
     )
     bot.send_message(msg.chat.id, text, reply_markup=main_keyboard())
-
 
 @bot.message_handler(commands=["help"])
 def cmd_help(msg: types.Message):
