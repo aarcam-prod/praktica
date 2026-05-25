@@ -41,13 +41,9 @@
 |------|-----|----------|
 
 | `id` | INTEGER PK | Автоинкремент |
-
 | `user_id` | INTEGER FK | Ссылка на users |
-
 | `entry_date` | TEXT | Дата записи |
-
 | `mood` | INTEGER | Настроение 1–5 |
-
 | `work_hours` | REAL | Часы работы |
 
 | `sleep_hours` | REAL | Часы сна |
