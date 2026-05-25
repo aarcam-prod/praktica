@@ -6,7 +6,9 @@ from typing import Optional
 DB_PATH = os.getenv("DB_PATH", "mood_tracker.db")
 
 def get_connection():
+
     conn = sqlite3.connect(DB_PATH)
+
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -21,7 +23,6 @@ def init_db():
             created_at  TEXT NOT NULL DEFAULT (datetime('now')),
             reminder_time TEXT DEFAULT '20:00'
         );
-
         CREATE TABLE IF NOT EXISTS daily_entries (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id         INTEGER NOT NULL,

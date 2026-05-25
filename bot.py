@@ -14,6 +14,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
+
 logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("BOT_TOKEN", "сюда надо вставить токен, чтобы заработало")
@@ -38,6 +39,7 @@ def main_keyboard() -> types.ReplyKeyboardMarkup:
 
 
 def cancel_keyboard() -> types.ReplyKeyboardMarkup:
+
     kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
     kb.add(types.KeyboardButton("❌ Отмена"))
     return kb
@@ -53,16 +55,19 @@ def mood_inline() -> types.InlineKeyboardMarkup:
 
 
 def hours_inline(prefix: str, values: list) -> types.InlineKeyboardMarkup:
+
     kb = types.InlineKeyboardMarkup(row_width=5)
     buttons = [
         types.InlineKeyboardButton(f"{v} ч", callback_data=f"{prefix}_{v}")
         for v in values
+
     ] + [types.InlineKeyboardButton("Другое ✏️", callback_data=f"{prefix}_other")]
     kb.add(*buttons)
     return kb
 
 
 def stats_inline() -> types.InlineKeyboardMarkup:
+
     kb = types.InlineKeyboardMarkup(row_width=2)
     kb.add(
         types.InlineKeyboardButton("📅 За неделю",  callback_data="stats_week"),
@@ -84,7 +89,9 @@ def settings_inline(current_time: str) -> types.InlineKeyboardMarkup:
         for t in times
     ]
     kb.add(*buttons)
+
     return kb
+
 
 def get_state(user_id: int) -> dict:
     return user_states.get(user_id, {})
@@ -115,9 +122,11 @@ def cmd_start(msg: types.Message):
         "На основе этих данных я покажу *тенденции и инсайты* о твоём образе жизни.\n\n"
         "Начни с кнопки *«➕ Записать день»* ниже 👇"
     )
+
     bot.send_message(msg.chat.id, text, reply_markup=main_keyboard())
 
 @bot.message_handler(commands=["help"])
+
 def cmd_help(msg: types.Message):
     text = (
         "📖 *Справка по боту*\n\n"
@@ -134,8 +143,10 @@ def cmd_help(msg: types.Message):
 
 
 @bot.message_handler(commands=["add"])
+
 @bot.message_handler(func=lambda m: m.text == "➕ Записать день")
 def cmd_add(msg: types.Message):
+
     user_id = msg.from_user.id
     db.upsert_user(user_id, msg.from_user.username or "", msg.from_user.first_name or "")
 
@@ -153,6 +164,7 @@ def cmd_add(msg: types.Message):
         return
 
     _start_entry_flow(msg.chat.id, user_id)
+
 
 
 def _start_entry_flow(chat_id: int, user_id: int):
@@ -186,8 +198,11 @@ def cmd_history(msg: types.Message):
 @bot.message_handler(commands=["settings"])
 @bot.message_handler(func=lambda m: m.text == "⚙️ Настройки")
 def cmd_settings(msg: types.Message):
+
     user = db.get_user(msg.from_user.id)
+
     if not user:
+
         db.upsert_user(msg.from_user.id, msg.from_user.username or "", msg.from_user.first_name or "")
         user = db.get_user(msg.from_user.id)
 
@@ -202,7 +217,9 @@ def cmd_settings(msg: types.Message):
 
 @bot.message_handler(commands=["clear"])
 def cmd_clear(msg: types.Message):
+
     kb = types.InlineKeyboardMarkup()
+
     kb.add(
         types.InlineKeyboardButton("🗑 Да, удалить всё", callback_data="clear_yes"),
         types.InlineKeyboardButton("❌ Отмена",           callback_data="clear_no"),
@@ -216,8 +233,11 @@ def cmd_clear(msg: types.Message):
 
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("mood_"))
+
 def cb_mood(call: types.CallbackQuery):
+
     user_id = call.from_user.id
+
     state = get_state(user_id)
     if state.get("step") != "mood":
         bot.answer_callback_query(call.id, "Начни заново: /add")
@@ -239,13 +259,16 @@ def cb_mood(call: types.CallbackQuery):
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("work_"))
 def cb_work(call: types.CallbackQuery):
+
     user_id = call.from_user.id
     state = get_state(user_id)
+
     if state.get("step") != "work":
         bot.answer_callback_query(call.id)
         return
 
     value = call.data.split("_")[1]
+    
     if value == "other":
         set_state(user_id, step="work_manual")
         bot.answer_callback_query(call.id)

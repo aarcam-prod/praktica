@@ -15,6 +15,7 @@
 
 ## База данных
 
+
 Используется SQLite (файл `mood_tracker.db` создаётся автоматически).
 
 ## Таблицы
@@ -57,6 +58,7 @@
 ## Команда
 
 - **Askhab** — backend (db_handler.py, schema.sql)
+- 
 - **Daud** — бот и аналитика (bot.py, analyzer.py)
 
 
