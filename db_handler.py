@@ -40,6 +40,7 @@ def init_db():
             ON daily_entries(user_id, entry_date);
     """)
     conn.commit()
+
     conn.close()
 
 def upsert_user(user_id: int, username: str, first_name: str):
@@ -73,10 +74,11 @@ def save_entry(user_id: int, mood: int, work_hours: float,
             sleep_hours = excluded.sleep_hours,
             comment     = excluded.comment,
             created_at  = datetime('now')
+                 
     """, (user_id, today, mood, work_hours, sleep_hours, comment))
     conn.commit()
     conn.close()
-
+## конкретно вот тут 
 def entry_exists_today(user_id: int) -> bool:
     today = date.today().isoformat()
     conn = get_connection()
