@@ -169,8 +169,10 @@ def cmd_add(msg: types.Message):
 
 def _start_entry_flow(chat_id: int, user_id: int):
     set_state(user_id, step="mood", chat_id=chat_id)
+
     bot.send_message(
         chat_id,
+
         "😊 *Шаг 1/4*\nОцени своё настроение сегодня:",
         reply_markup=cancel_keyboard(),
     )
@@ -180,6 +182,7 @@ def _start_entry_flow(chat_id: int, user_id: int):
 @bot.message_handler(commands=["stats"])
 @bot.message_handler(func=lambda m: m.text == "📊 Статистика")
 def cmd_stats(msg: types.Message):
+    
     bot.send_message(
         msg.chat.id,
         "📊 *Что хочешь узнать?*",
@@ -268,7 +271,7 @@ def cb_work(call: types.CallbackQuery):
         return
 
     value = call.data.split("_")[1]
-    
+
     if value == "other":
         set_state(user_id, step="work_manual")
         bot.answer_callback_query(call.id)
