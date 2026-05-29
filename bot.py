@@ -352,14 +352,18 @@ def cb_stats(call: types.CallbackQuery):
 
     if action == "week":
         entries = db.get_stats(user_id, "week")
-        
+
         text = analyzer.format_stats_text(entries, "за неделю")
+
         bot.send_message(call.message.chat.id, text, reply_markup=main_keyboard())
 
     elif action == "month":
         entries = db.get_stats(user_id, "month")
+
         text = analyzer.format_stats_text(entries, "за месяц")
+
         bot.send_message(call.message.chat.id, text, reply_markup=main_keyboard())
+
 
     elif action == "insights":
         insights = db.get_insights(user_id)
@@ -371,6 +375,7 @@ def cb_stats(call: types.CallbackQuery):
         if len(entries) < 2:
             bot.send_message(call.message.chat.id,
                              "📭 Нужно хотя бы 2 записи для построения графика.",
+                             
                              reply_markup=main_keyboard())
             return
         chart = analyzer.build_chart(entries)
