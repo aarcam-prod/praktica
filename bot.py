@@ -187,7 +187,7 @@ def cmd_stats(msg: types.Message):
     
     bot.send_message(
         msg.chat.id,
-        
+
         "📊 *Что хочешь узнать?*",
         reply_markup=stats_inline(),
     )
@@ -195,7 +195,9 @@ def cmd_stats(msg: types.Message):
 
 @bot.message_handler(commands=["history"])
 @bot.message_handler(func=lambda m: m.text == "📋 История")
+
 def cmd_history(msg: types.Message):
+
     entries = db.get_all_entries(msg.from_user.id, limit=14)
     text = analyzer.format_history_text(entries)
     bot.send_message(msg.chat.id, text, reply_markup=main_keyboard())
@@ -350,6 +352,7 @@ def cb_stats(call: types.CallbackQuery):
 
     if action == "week":
         entries = db.get_stats(user_id, "week")
+        
         text = analyzer.format_stats_text(entries, "за неделю")
         bot.send_message(call.message.chat.id, text, reply_markup=main_keyboard())
 
